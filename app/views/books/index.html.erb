@@ -1,0 +1,22 @@
+<h2>All Books in the Reading Challenge</h2>
+
+<%= link_to "Add a Book", new_book_path, class: "btn btn-primary" %>
+
+<% if @books.any? %>
+  <div class="books-list">
+    <% @books.each do |book| %>
+      <div class="book-item <%= 'disapproved' if book.disapproved_by_majority? %>">
+        <h3><%= link_to book.title, book_path(book) %></h3>
+        <p class="book-author">by <%= book.author %></p>
+        <p class="book-user">Added by <%= link_to book.user.username, user_path(book.user) %></p>
+        <p class="book-pages"><%= book.pages %> pages</p>
+        <% if book.disapproved_by_majority? %>
+          <span class="badge badge-disapproved">⚠️ Disapproved by Majority</span>
+        <% end %>
+        <%= link_to "View Details", book_path(book), class: "btn btn-small" %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>No books have been added yet.</p>
+<% end %>

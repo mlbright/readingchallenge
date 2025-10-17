@@ -1,0 +1,109 @@
+# This file should ensure the existence of records required to run the application in every environment (production,
+# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
+# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
+#
+# Example:
+#
+#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
+#     MovieGenre.find_or_create_by!(name: genre_name)
+#   end
+
+# Clear existing data
+Vote.destroy_all
+Book.destroy_all
+User.destroy_all
+
+# Create users
+alice = User.create!(
+  username: "alice",
+  email: "alice@example.com",
+  password: "password",
+  password_confirmation: "password"
+)
+
+bob = User.create!(
+  username: "bob",
+  email: "bob@example.com",
+  password: "password",
+  password_confirmation: "password"
+)
+
+charlie = User.create!(
+  username: "charlie",
+  email: "charlie@example.com",
+  password: "password",
+  password_confirmation: "password"
+)
+
+puts "Created #{User.count} users"
+
+# Create books for Alice
+book1 = alice.books.create!(
+  title: "The Great Gatsby",
+  author: "F. Scott Fitzgerald",
+  pages: 180,
+  description: "A classic American novel set in the Jazz Age.",
+  url: "https://www.amazon.com/Great-Gatsby-F-Scott-Fitzgerald/dp/0743273565"
+)
+
+book2 = alice.books.create!(
+  title: "To Kill a Mockingbird",
+  author: "Harper Lee",
+  pages: 324,
+  description: "A gripping tale of racial injustice and childhood innocence.",
+  url: "https://www.amazon.com/Kill-Mockingbird-Harper-Lee/dp/0060935464"
+)
+
+# Create books for Bob
+book3 = bob.books.create!(
+  title: "1984",
+  author: "George Orwell",
+  pages: 328,
+  description: "A dystopian social science fiction novel.",
+  url: "https://www.amazon.com/1984-George-Orwell/dp/0451524934"
+)
+
+book4 = bob.books.create!(
+  title: "The Hobbit",
+  author: "J.R.R. Tolkien",
+  pages: 310,
+  description: "A fantasy novel about a hobbit's unexpected journey.",
+  url: "https://www.amazon.com/Hobbit-J-R-R-Tolkien/dp/054792822X"
+)
+
+# Create books for Charlie
+book5 = charlie.books.create!(
+  title: "Pride and Prejudice",
+  author: "Jane Austen",
+  pages: 279,
+  description: "A romantic novel of manners.",
+  url: "https://www.amazon.com/Pride-Prejudice-Jane-Austen/dp/0141439513"
+)
+
+puts "Created #{Book.count} books"
+
+# Create votes
+# Bob and Charlie approve Alice's first book
+book1.votes.create!(user: bob, approved: true)
+book1.votes.create!(user: charlie, approved: true)
+
+# Bob disapproves Alice's second book, Charlie approves
+book2.votes.create!(user: bob, approved: false)
+book2.votes.create!(user: charlie, approved: true)
+
+# Alice and Charlie disapprove Bob's first book (majority disapproval)
+book3.votes.create!(user: alice, approved: false)
+book3.votes.create!(user: charlie, approved: false)
+
+# Alice approves Bob's second book
+book4.votes.create!(user: alice, approved: true)
+
+# Alice and Bob approve Charlie's book
+book5.votes.create!(user: alice, approved: true)
+book5.votes.create!(user: bob, approved: true)
+
+puts "Created #{Vote.count} votes"
+puts "\nSample accounts:"
+puts "Username: alice, Password: password"
+puts "Username: bob, Password: password"
+puts "Username: charlie, Password: password"

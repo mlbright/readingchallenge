@@ -1,0 +1,27 @@
+<h2>Reading Challenge Participants</h2>
+
+<div class="users-grid">
+  <% @users.each do |user| %>
+    <div class="user-card">
+      <h3><%= link_to user.username, user_path(user) %></h3>
+      <p class="user-stats">
+        <strong><%= user.books.count %></strong> books
+      </p>
+      <% approved = user.books.reject(&:disapproved_by_majority?).count %>
+      <% disapproved = user.books.select(&:disapproved_by_majority?).count %>
+      <p class="user-stats">
+        <span class="approved"><%= approved %> approved</span>
+        <% if disapproved > 0 %>
+          <span class="disapproved"><%= disapproved %> disapproved</span>
+        <% end %>
+      </p>
+      <%= link_to "View Books", user_path(user), class: "btn btn-small" %>
+    </div>
+  <% end %>
+</div>
+
+<% if logged_in? %>
+  <div style="margin-top: 2rem;">
+    <%= link_to "Add a Book", new_book_path, class: "btn btn-primary" %>
+  </div>
+<% end %>

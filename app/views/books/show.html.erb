@@ -1,0 +1,80 @@
+<div class="book-detail">
+  <div class="book-header">
+    <h2><%= @book.title %></h2>
+    <p class="book-author">by <%= @book.author %></p>
+    <p class="book-user">Added by <%= link_to @book.user.username, user_path(@book.user) %></p>
+  </div>
+
+  <div class="book-info">
+    <p><strong>Pages:</strong> <%= @book.pages %></p>
+    
+    <% if @book.description.present? %>
+      <div class="book-description">
+        <strong>Description:</strong>
+        <p><%= simple_format(@book.description) %></p>
+      </div>
+    <% end %>
+    
+    <% if @book.url.present? %>
+      <p><strong>Purchase/More Info:</strong> <%= link_to @book.url, @book.url, target: "_blank" %></p>
+    <% end %>
+  </div>
+
+  <div class="voting-section">
+    <h3>Community Votes</h3>
+    
+    <div class="vote-stats">
+      <% approved_votes = @votes.where(approved: true).count %>
+      <% disapproved_votes = @votes.where(approved: false).count %>
+      <div class="vote-count">
+        <span class="approved">👍 <%= approved_votes %> Approved</span>
+        <span class="disapproved">👎 <%= disapproved_votes %> Disapproved</span>
+      </div>
+      
+      <% if @book.disapproved_by_majority? %>
+        <div class="alert alert-warning">
+          <strong>⚠️ This book has been disapproved by the majority of users.</strong>
+        </div>
+      <% end %>
+    </div>
+
+    <% if logged_in? && current_user != @book.user %>
+      <div class="vote-actions">
+        <h4>Your Vote:</h4>
+        <% if @vote %>
+          <p>You <%= @vote.approved ? "approved" : "disapproved" %> this book.</p>
+          <%= button_to "Remove Vote", book_vote_path(@book, @vote), method: :delete, class: "btn btn-small" %>
+        <% else %>
+          <%= button_to "👍 Approve", book_votes_path(@book), method: :post, params: { approved: true }, class: "btn btn-success" %>
+          <%= button_to "👎 Disapprove", book_votes_path(@book), method: :post, params: { approved: false }, class: "btn btn-danger" %>
+        <% end %>
+      </div>
+    <% elsif logged_in? && current_user == @book.user %>
+      <p class="info-message">You cannot vote on your own book.</p>
+    <% end %>
+
+    <% if @votes.any? %>
+      <div class="votes-list">
+        <h4>All Votes:</h4>
+        <ul>
+          <% @votes.each do |vote| %>
+            <li>
+              <%= link_to vote.user.username, user_path(vote.user) %> - 
+              <span class="<%= vote.approved ? 'approved' : 'disapproved' %>">
+                <%= vote.approved ? "👍 Approved" : "👎 Disapproved" %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="book-actions">
+    <%= link_to "Back to All Books", books_path, class: "btn" %>
+    <% if logged_in? && current_user == @book.user %>
+      <%= link_to "Edit", edit_book_path(@book), class: "btn" %>
+      <%= button_to "Delete", book_path(@book), method: :delete, data: { confirm: "Are you sure you want to delete this book?" }, class: "btn btn-danger" %>
+    <% end %>
+  </div>
+</div>

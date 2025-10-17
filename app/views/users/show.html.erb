@@ -1,0 +1,51 @@
+<div class="user-header">
+  <h2><%= @user.username %>'s Reading List</h2>
+  <p class="user-email"><%= @user.email %></p>
+</div>
+
+<div class="book-stats">
+  <div class="stat-box">
+    <span class="stat-number"><%= @books.count %></span>
+    <span class="stat-label">Total Books</span>
+  </div>
+  <div class="stat-box approved">
+    <span class="stat-number"><%= @approved_count %></span>
+    <span class="stat-label">Approved</span>
+  </div>
+  <% if @disapproved_count > 0 %>
+    <div class="stat-box disapproved">
+      <span class="stat-number"><%= @disapproved_count %></span>
+      <span class="stat-label">Disapproved by Majority</span>
+    </div>
+  <% end %>
+</div>
+
+<% if @books.any? %>
+  <div class="books-list">
+    <% @books.each do |book| %>
+      <div class="book-item <%= 'disapproved' if book.disapproved_by_majority? %>">
+        <h3><%= link_to book.title, book_path(book) %></h3>
+        <p class="book-author">by <%= book.author %></p>
+        <p class="book-pages"><%= book.pages %> pages</p>
+        <% if book.disapproved_by_majority? %>
+          <span class="badge badge-disapproved">⚠️ Disapproved by Majority</span>
+        <% end %>
+        <div class="book-actions">
+          <%= link_to "View Details", book_path(book), class: "btn btn-small" %>
+          <% if logged_in? && current_user == @user %>
+            <%= link_to "Edit", edit_book_path(book), class: "btn btn-small" %>
+            <%= button_to "Delete", book_path(book), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-small btn-danger" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="no-books">No books added yet.</p>
+<% end %>
+
+<% if logged_in? && current_user == @user %>
+  <div style="margin-top: 2rem;">
+    <%= link_to "Add a New Book", new_book_path, class: "btn btn-primary" %>
+  </div>
+<% end %>
