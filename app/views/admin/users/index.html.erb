@@ -1,0 +1,63 @@
+<div class="admin-header">
+  <h2>👑 User Administration</h2>
+  <p class="admin-subtitle">Manage all users in the reading challenge</p>
+</div>
+
+<div class="admin-actions">
+  <%= link_to "➕ Add New User", new_admin_user_path, class: "btn btn-primary" %>
+</div>
+
+<div class="admin-users-table">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Admin</th>
+        <th>Books</th>
+        <th>Joined</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td>
+            <%= link_to user.username, user_path(user) %>
+            <% if user == current_user %>
+              <span class="badge badge-info">You</span>
+            <% end %>
+          </td>
+          <td><%= user.email %></td>
+          <td>
+            <% if user.admin %>
+              <span class="badge badge-admin">👑 Admin</span>
+            <% else %>
+              <span class="badge badge-user">User</span>
+            <% end %>
+          </td>
+          <td><%= user.books.count %></td>
+          <td><%= user.created_at.strftime("%b %d, %Y") %></td>
+          <td>
+            <% if user != current_user %>
+              <%= button_to "Delete", admin_user_path(user), 
+                  method: :delete, 
+                  data: { confirm: "Are you sure you want to delete #{user.username}? This will also delete all their books and votes." }, 
+                  class: "btn btn-small btn-danger" %>
+            <% else %>
+              <span class="text-muted">Current user</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="admin-stats">
+  <p><strong>Total Users:</strong> <%= @users.count %></p>
+  <p><strong>Administrators:</strong> <%= @users.where(admin: true).count %></p>
+  <p><strong>Regular Users:</strong> <%= @users.where(admin: false).count %></p>
+</div>

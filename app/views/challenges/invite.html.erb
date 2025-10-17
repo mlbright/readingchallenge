@@ -1,0 +1,109 @@
+<div class="page-header">
+  <h2>Invite Users to <%= @challenge.name %></h2>
+  <p class="breadcrumb">
+    <%= link_to "Challenges", challenges_path %> &raquo; 
+    <%= link_to @challenge.name, challenge_path(@challenge) %> &raquo; 
+    Invite Users
+  </p>
+</div>
+
+<% if @available_users.any? %>
+  <%= form_with url: add_users_challenge_path(@challenge), method: :post do |f| %>
+    <div class="form-section">
+      <div class="alert alert-info">
+        <strong>Select users to add to this challenge:</strong>
+        <p>Selected users will be able to add books and participate immediately.</p>
+      </div>
+      
+      <div class="user-selection-grid">
+        <% @available_users.each do |user| %>
+          <div class="user-selection-card">
+            <label class="user-checkbox-label">
+              <%= check_box_tag 'user_ids[]', user.id, false, id: "user_#{user.id}" %>
+              <div class="user-info">
+                <strong><%= user.username %></strong>
+                <% if user.admin %>
+                  <span class="badge badge-admin">👑 Admin</span>
+                <% end %>
+                <br>
+                <span class="user-email"><%= user.email %></span>
+                <br>
+                <span class="user-stats-small">
+                  <%= user.books.count %> books • 
+                  <%= user.challenges.count %> challenges
+                </span>
+              </div>
+            </label>
+          </div>
+        <% end %>
+      </div>
+      
+      <div class="form-actions" style="margin-top: 2rem;">
+        <%= f.submit "Add Selected Users", class: "btn btn-primary" %>
+        <%= link_to "Cancel", challenge_path(@challenge), class: "btn btn-secondary" %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="alert alert-info">
+    <p><strong>All users are already participating in this challenge!</strong></p>
+    <p>There are no more users available to invite.</p>
+  </div>
+  
+  <%= link_to "← Back to Challenge", challenge_path(@challenge), class: "btn btn-secondary" %>
+<% end %>
+
+<style>
+.user-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.user-selection-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.user-selection-card:hover {
+  border-color: #4a90e2;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+}
+
+.user-checkbox-label {
+  display: flex;
+  align-items: start;
+  gap: 0.75rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.user-checkbox-label input[type="checkbox"] {
+  margin-top: 0.25rem;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.user-checkbox-label input[type="checkbox"]:checked ~ .user-info {
+  font-weight: 600;
+}
+
+.user-selection-card:has(input:checked) {
+  border-color: #4a90e2;
+  background: #f0f7ff;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-stats-small {
+  font-size: 0.9rem;
+  color: #666;
+}
+</style>

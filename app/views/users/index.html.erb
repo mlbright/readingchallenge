@@ -1,0 +1,21 @@
+<h2>Reading Challenge Participants</h2>
+
+<div class="users-grid">
+  <% @users.each do |user| %>
+    <div class="user-card">
+      <h3><%= link_to user.username, user_path(user) %></h3>
+      <% if user.admin %>
+        <span class="badge badge-admin">👑 Admin</span>
+      <% end %>
+      <p class="user-stats">
+        <strong><%= user.books.count %></strong> books
+        (<strong><%= user.completed_books_count %></strong> completed)
+      </p>
+      <p class="user-stats">
+        <strong><%= user.created_challenges.count %></strong> challenges created
+        <strong><%= user.challenges.count %></strong> participating
+      </p>
+      <%= link_to "View Profile", user_path(user), class: "btn btn-small" %>
+    </div>
+  <% end %>
+</div>

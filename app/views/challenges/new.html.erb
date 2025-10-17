@@ -1,0 +1,46 @@
+<div class="form-container">
+  <h1>Create New Challenge</h1>
+  <p class="form-subtitle">Set up a reading challenge and invite others to join!</p>
+
+  <%= form_with model: @challenge, local: true do |f| %>
+    <% if @challenge.errors.any? %>
+      <div class="error-messages">
+        <h3><%= pluralize(@challenge.errors.count, "error") %> prohibited this challenge from being saved:</h3>
+        <ul>
+          <% @challenge.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, required: true, class: "form-control", placeholder: "e.g., Summer Reading Challenge 2025", maxlength: 100 %>
+      <small class="form-text">Give your challenge a memorable name (3-100 characters)</small>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description %>
+      <%= f.text_area :description, rows: 4, class: "form-control", placeholder: "Describe the goals, theme, or rules of your challenge..." %>
+      <small class="form-text">Optional - provide details about your challenge</small>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :due_date, "End Date" %>
+      <%= f.date_field :due_date, required: true, class: "form-control", min: Date.tomorrow %>
+      <small class="form-text">When does this challenge end? Must be a future date.</small>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :veto_threshold, "Veto Threshold" %>
+      <%= f.number_field :veto_threshold, required: true, class: "form-control", min: 1, value: @challenge.veto_threshold || 1 %>
+      <small class="form-text">How many vetos before a book doesn't count toward the leaderboard? (Default: 1)</small>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit "Create Challenge", class: "btn btn-primary" %>
+      <%= link_to "Cancel", challenges_path, class: "btn" %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,54 @@
+<div class="challenges-page">
+  <div class="page-header">
+    <h1>📚 Reading Challenges</h1>
+    <%= link_to "Create New Challenge", new_challenge_path, class: "btn btn-primary" if current_user.can_create_challenge? %>
+  </div>
+
+  <% unless current_user.can_create_challenge? %>
+    <div class="alert alert-warning">
+      You've reached the maximum of 100 challenges. Delete a challenge to create new ones.
+    </div>
+  <% end %>
+
+  <!-- My Created Challenges -->
+  <section class="challenges-section">
+    <h2>🎯 My Challenges</h2>
+    <% if @my_challenges.any? %>
+      <div class="challenges-grid">
+        <% @my_challenges.each do |challenge| %>
+          <%= render 'challenge_card', challenge: challenge, badge: 'Creator' %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="no-content">You haven't created any challenges yet. <%= link_to "Create your first challenge", new_challenge_path %>!</p>
+    <% end %>
+  </section>
+
+  <!-- Participating Challenges -->
+  <section class="challenges-section">
+    <h2>🏃 Participating In</h2>
+    <% if @participating_challenges.any? %>
+      <div class="challenges-grid">
+        <% @participating_challenges.each do |challenge| %>
+          <%= render 'challenge_card', challenge: challenge, badge: 'Participant' %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="no-content">You're not participating in any challenges yet. Browse available challenges below!</p>
+    <% end %>
+  </section>
+
+  <!-- Available Challenges -->
+  <section class="challenges-section">
+    <h2>🌟 Available Challenges</h2>
+    <% if @available_challenges.any? %>
+      <div class="challenges-grid">
+        <% @available_challenges.each do |challenge| %>
+          <%= render 'challenge_card', challenge: challenge, badge: nil %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="no-content">No other active challenges available at this time.</p>
+    <% end %>
+  </section>
+</div>

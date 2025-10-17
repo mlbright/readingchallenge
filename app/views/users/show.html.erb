@@ -1,0 +1,77 @@
+<div class="user-header">
+  <h2><%= @user.username %>'s Profile</h2>
+  <p class="user-email"><%= @user.email %></p>
+  <% if @user.admin %>
+    <span class="badge badge-admin">👑 Site Administrator</span>
+  <% end %>
+</div>
+
+<div class="book-stats">
+  <div class="stat-box">
+    <span class="stat-number"><%= @books.count %></span>
+    <span class="stat-label">Total Books</span>
+  </div>
+  <div class="stat-box completed">
+    <span class="stat-number"><%= @user.completed_books_count %></span>
+    <span class="stat-label">Completed Books</span>
+  </div>
+  <div class="stat-box in-progress">
+    <span class="stat-number"><%= @user.in_progress_books_count %></span>
+    <span class="stat-label">In Progress</span>
+  </div>
+  <div class="stat-box">
+    <span class="stat-number"><%= @user.created_challenges.count %></span>
+    <span class="stat-label">Challenges Created</span>
+  </div>
+  <div class="stat-box">
+    <span class="stat-number"><%= @user.challenges.count %></span>
+    <span class="stat-label">Challenges Participating</span>
+  </div>
+</div>
+
+<h3 style="margin-top: 2rem;">Challenges</h3>
+<% if @challenges.any? %>
+  <div class="challenges-grid" style="margin-bottom: 2rem;">
+    <% @challenges.each do |challenge| %>
+      <% badge = challenge.creator == @user ? 'Creator' : 'Participant' %>
+      <%= render 'challenges/challenge_card', challenge: challenge, user: @user, badge: badge %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="no-items">Not participating in any challenges yet.</p>
+<% end %>
+
+<h3>Books</h3>
+<% if @books.any? %>
+  <div class="books-list">
+    <% @books.each do |book| %>
+      <div class="book-item <%= 'vetoed' if book.exceeds_veto_threshold? %>">
+        <h4><%= link_to book.title, challenge_book_path(book.challenge, book) %></h4>
+        <p class="book-author">by <%= book.author %></p>
+        <p class="book-pages"><%= book.pages %> pages</p>
+        <p class="book-challenge">
+          Challenge: <%= link_to book.challenge.name, challenge_path(book.challenge) %>
+        </p>
+        <% if book.completed? %>
+          <span class="badge badge-completed">✓ Completed <%= book.completion_date.strftime("%b %d, %Y") %></span>
+        <% else %>
+          <span class="badge badge-in-progress">📖 In Progress</span>
+        <% end %>
+        <% if book.exceeds_veto_threshold? %>
+          <span class="badge badge-vetoed">🚫 Exceeds Veto Threshold</span>
+        <% elsif book.vetoed? %>
+          <span class="badge badge-warning">⚠️ Has <%= pluralize(book.veto_count, 'veto') %></span>
+        <% end %>
+        <div class="book-actions">
+          <%= link_to "View Details", challenge_book_path(book.challenge, book), class: "btn btn-small" %>
+          <% if logged_in? && current_user == @user %>
+            <%= link_to "Edit", edit_challenge_book_path(book.challenge, book), class: "btn btn-small" %>
+            <%= button_to "Delete", challenge_book_path(book.challenge, book), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-small btn-danger" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="no-items">No books added yet.</p>
+<% end %>

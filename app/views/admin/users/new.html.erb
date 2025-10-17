@@ -1,0 +1,42 @@
+<div class="admin-header">
+  <h2>Add New User</h2>
+  <p class="admin-subtitle">Create a user account - they will set their password on first login</p>
+</div>
+
+<%= form_with model: [:admin, @user], local: true do |f| %>
+  <% if @user.errors.any? %>
+    <div class="error-messages">
+      <h3><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h3>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :email %>
+    <%= f.email_field :email, required: true, class: "form-control", placeholder: "user@example.com" %>
+    <small class="form-text">Required - used for login</small>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :username %>
+    <%= f.text_field :username, class: "form-control", placeholder: "Leave blank to auto-generate from email" %>
+    <small class="form-text">Optional - will be generated from email if not provided</small>
+  </div>
+
+  <div class="form-group">
+    <label class="checkbox-label">
+      <%= f.check_box :admin %>
+      <%= f.label :admin, "Administrator privileges" %>
+    </label>
+    <small class="form-text">Admins can manage all users</small>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "Create User", class: "btn btn-primary" %>
+    <%= link_to "Cancel", admin_users_path, class: "btn" %>
+  </div>
+<% end %>

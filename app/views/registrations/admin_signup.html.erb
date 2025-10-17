@@ -1,0 +1,48 @@
+<div class="password-setup">
+  <h1>🎯 Site Administrator Setup</h1>
+  <p class="form-subtitle">Welcome! Set up the site administrator account for Reading Challenge.</p>
+  
+  <div class="alert alert-info">
+    <strong>⚠️ Important:</strong> This is a one-time setup. After creating the site administrator account, 
+    this page will no longer be accessible. The site administrator will be able to create user accounts 
+    for others.
+  </div>
+  
+  <%= form_with url: create_admin_path, method: :post, local: true do |f| %>
+    <div class="form-group">
+      <%= label_tag :username %>
+      <%= text_field_tag :username, nil, required: true, class: "form-control", placeholder: "Choose a username" %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :email %>
+      <%= email_field_tag :email, nil, required: true, class: "form-control", placeholder: "admin@example.com" %>
+      <small class="form-text">This will be used for login</small>
+    </div>
+
+    <div class="password-requirements">
+      <h3>Password Requirements:</h3>
+      <ul>
+        <li>Minimum 12 characters</li>
+        <li>At least one lowercase letter (a-z)</li>
+        <li>At least one uppercase letter (A-Z)</li>
+        <li>At least one digit (0-9)</li>
+        <li>At least one special character (!@#$%^&*()_+-=[]{}|;:,.<>?)</li>
+      </ul>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :password %>
+      <%= password_field_tag :password, nil, required: true, class: "form-control", minlength: 12 %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :password_confirmation, "Confirm Password" %>
+      <%= password_field_tag :password_confirmation, nil, required: true, class: "form-control", minlength: 12 %>
+    </div>
+
+    <div class="form-actions">
+      <%= submit_tag "Create Administrator Account", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

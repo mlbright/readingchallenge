@@ -1,0 +1,93 @@
+<div class="leaderboard-page">
+  <div class="leaderboard-header">
+    <h1>🏆 <%= @challenge.name %> - Leaderboard</h1>
+    <% if @challenge.complete? %>
+      <span class="badge badge-complete">Challenge Complete!</span>
+    <% else %>
+      <span class="badge badge-active">Challenge Active - <%= distance_of_time_in_words_to_now(@challenge.due_date) %> remaining</span>
+    <% end %>
+  </div>
+
+  <% if @leaderboard_data.any? %>
+    <div class="leaderboard-table-container">
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Participant</th>
+            <th>Books Completed</th>
+            <th>Valid Books*</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @leaderboard_data.each_with_index do |data, index| %>
+            <tr class="<%= 'current-user' if data[:user] == current_user %> <%= 'rank-1' if index == 0 && @challenge.complete? %>">
+              <td class="rank">
+                <% if index == 0 && @challenge.complete? %>
+                  🥇
+                <% elsif index == 1 && @challenge.complete? %>
+                  🥈
+                <% elsif index == 2 && @challenge.complete? %>
+                  🥉
+                <% else %>
+                  <%= index + 1 %>
+                <% end %>
+              </td>
+              <td class="participant">
+                <%= link_to data[:user].username, user_path(data[:user]) %>
+                <% if data[:user] == @challenge.creator %>
+                  <span class="badge badge-creator">Creator</span>
+                <% end %>
+                <% if data[:user] == current_user %>
+                  <span class="badge badge-you">You</span>
+                <% end %>
+              </td>
+              <td class="books-completed"><%= data[:completed] %></td>
+              <td class="valid-books"><strong><%= data[:valid] %></strong></td>
+              <td class="status">
+                <% if index == 0 && @challenge.complete? %>
+                  <span class="winner-badge">🏆 Winner!</span>
+                <% elsif data[:valid] > 0 %>
+                  <span class="status-good">✓ On track</span>
+                <% else %>
+                  <span class="status-none">No valid books</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="leaderboard-note">
+      <p><strong>*Valid Books:</strong> Completed books that haven't exceeded the veto threshold (<%= @challenge.veto_threshold %> <%= @challenge.veto_threshold == 1 ? 'veto' : 'vetos' %>).</p>
+    </div>
+    
+    <% if @challenge.complete? %>
+      <div class="winners-section">
+        <h2>🎉 Challenge Winners!</h2>
+        <% winners = @leaderboard_data.select { |d| d[:valid] == @leaderboard_data.first[:valid] && d[:valid] > 0 } %>
+        <% if winners.any? %>
+          <div class="winners-list">
+            <% winners.each do |winner_data| %>
+              <div class="winner-card">
+                <h3>🏆 <%= winner_data[:user].username %></h3>
+                <p><%= pluralize(winner_data[:valid], 'valid book') %> read!</p>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="no-content">No one completed any valid books in this challenge.</p>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="no-content">No participants have joined this challenge yet.</p>
+  <% end %>
+
+  <div class="leaderboard-actions">
+    <%= link_to "← Back to Challenge", @challenge, class: "btn" %>
+    <%= link_to "View Books", challenge_books_path(@challenge), class: "btn" %>
+  </div>
+</div>

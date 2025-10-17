@@ -1,0 +1,39 @@
+<div class="challenge-card">
+  <div class="challenge-card-header">
+    <h3><%= link_to challenge.name, challenge_path(challenge) %></h3>
+    <% if badge %>
+      <span class="badge badge-<%= badge.downcase %>"><%= badge %></span>
+    <% end %>
+  </div>
+  
+  <div class="challenge-card-body">
+    <div class="challenge-info">
+      <span class="challenge-creator">
+        <strong>Created by:</strong> <%= challenge.creator.username %>
+      </span>
+      <span class="challenge-due">
+        <strong>Due:</strong> <%= challenge.due_date.strftime("%B %d, %Y") %>
+        <% if challenge.complete? %>
+          <span class="badge badge-complete">✓ Complete</span>
+        <% elsif challenge.due_date < Date.today + 7 %>
+          <span class="badge badge-urgent">⚠️ Ends Soon</span>
+        <% end %>
+      </span>
+    </div>
+    
+    <% if challenge.description.present? %>
+      <p class="challenge-description"><%= truncate(challenge.description, length: 150) %></p>
+    <% end %>
+    
+    <div class="challenge-stats">
+      <span>👥 <%= pluralize(challenge.participants.count, 'participant') %></span>
+      <span>📖 <%= pluralize(challenge.books.count, 'book') %></span>
+      <span>🚫 <%= pluralize(challenge.veto_threshold, 'veto') %> threshold</span>
+    </div>
+  </div>
+  
+  <div class="challenge-card-footer">
+    <%= link_to "View Details", challenge_path(challenge), class: "btn btn-small" %>
+    <%= link_to "Leaderboard", leaderboard_challenge_path(challenge), class: "btn btn-small" %>
+  </div>
+</div>

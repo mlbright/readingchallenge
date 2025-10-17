@@ -1,0 +1,101 @@
+<div class="challenge-detail">
+  <div class="challenge-header">
+    <h1><%= @challenge.name %></h1>
+    <div class="challenge-status-badges">
+      <% if @challenge.complete? %>
+        <span class="badge badge-complete">✓ Challenge Complete</span>
+      <% else %>
+        <span class="badge badge-active">🏃 Active</span>
+      <% end %>
+      <% if @challenge.creator == current_user %>
+        <span class="badge badge-creator">👑 You're the Creator</span>
+      <% elsif @is_participant %>
+        <span class="badge badge-participant">✓ You're Participating</span>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="challenge-info-box">
+    <div class="info-row">
+      <strong>Created by:</strong> <%= link_to @challenge.creator.username, user_path(@challenge.creator) %>
+    </div>
+    <div class="info-row">
+      <strong>Due Date:</strong> <%= @challenge.due_date.strftime("%B %d, %Y") %>
+      <% if @challenge.active? %>
+        (<%= distance_of_time_in_words_to_now(@challenge.due_date) %> remaining)
+      <% end %>
+    </div>
+    <div class="info-row">
+      <strong>Veto Threshold:</strong> <%= @challenge.veto_threshold %> 
+      <small>(Books with <%= @challenge.veto_threshold %>+ vetos don't count toward leaderboard)</small>
+    </div>
+    <div class="info-row">
+      <strong>Participants:</strong> <%= @challenge.participants.count %>
+    </div>
+    
+    <% if @challenge.description.present? %>
+      <div class="challenge-description">
+        <strong>Description:</strong>
+        <p><%= simple_format(@challenge.description) %></p>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="challenge-actions">
+    <%= link_to "📊 View Leaderboard", leaderboard_challenge_path(@challenge), class: "btn btn-primary" %>
+    
+    <% if @challenge.creator == current_user %>
+      <%= link_to "👥 Invite Users", invite_challenge_path(@challenge), class: "btn btn-success" %>
+      <%= link_to "Edit Challenge", edit_challenge_path(@challenge), class: "btn" %>
+      <%= button_to "Delete Challenge", challenge_path(@challenge), method: :delete, data: { confirm: "Are you sure? This will delete all books and vetos in this challenge." }, class: "btn btn-danger" %>
+    <% elsif @is_participant %>
+      <%= link_to "Add Book", new_challenge_book_path(@challenge), class: "btn btn-success" %>
+      <%= button_to "Leave Challenge", leave_challenge_path(@challenge), method: :delete, data: { confirm: "Are you sure you want to leave this challenge?" }, class: "btn" %>
+    <% elsif @challenge.active? %>
+      <%= button_to "Join Challenge", join_challenge_path(@challenge), method: :post, class: "btn btn-success" %>
+    <% end %>
+  </div>
+
+  <section class="challenge-books">
+    <h2>📚 Books in this Challenge</h2>
+    
+    <% if @is_participant %>
+      <%= link_to "➕ Add a Book", new_challenge_book_path(@challenge), class: "btn btn-small btn-success" %>
+    <% end %>
+    
+    <% if @books.any? %>
+      <div class="books-list">
+        <% @books.each do |book| %>
+          <div class="book-item">
+            <div class="book-item-header">
+              <h3><%= link_to book.title, challenge_book_path(@challenge, book) %></h3>
+              <div class="book-badges">
+                <% if book.completed? %>
+                  <span class="badge badge-completed">✓ Completed <%= book.completion_date.strftime("%m/%d/%y") %></span>
+                <% else %>
+                  <span class="badge badge-in-progress">📖 In Progress</span>
+                <% end %>
+                <% if book.exceeds_veto_threshold? %>
+                  <span class="badge badge-vetoed">🚫 Vetoed (doesn't count)</span>
+                <% end %>
+              </div>
+            </div>
+            
+            <div class="book-item-info">
+              <span><strong>Author:</strong> <%= book.author %></span>
+              <span><strong>Pages:</strong> <%= book.pages %></span>
+              <span><strong>Added by:</strong> <%= link_to book.user.username, user_path(book.user) %></span>
+              <span><strong>Vetos:</strong> <%= book.veto_count %></span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="no-content">No books have been added to this challenge yet. Be the first!</p>
+    <% end %>
+  </section>
+
+  <div class="back-link">
+    <%= link_to "← Back to Challenges", challenges_path, class: "btn" %>
+  </div>
+</div>
