@@ -6,7 +6,7 @@ class AddChallengeToBooks < ActiveRecord::Migration[8.0]
         execute "DELETE FROM books"
       end
     end
-    
+
     add_reference :books, :challenge, null: false, foreign_key: true
   end
 end

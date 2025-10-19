@@ -9,7 +9,7 @@ class CreateChallenges < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :challenges, :creator_id
     add_foreign_key :challenges, :users, column: :creator_id
   end

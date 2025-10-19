@@ -5,13 +5,13 @@ class WelcomeController < ApplicationController
       redirect_to challenges_path
       return
     end
-    
+
     # If no admin exists, prompt to create one
     unless User.exists?(admin: true)
       redirect_to admin_signup_path
       return
     end
-    
+
     # Otherwise show login
     redirect_to login_path
   end

@@ -1,10 +1,10 @@
 class BooksController < ApplicationController
   before_action :require_login
   before_action :set_challenge
-  before_action :set_book, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_user, only: [:edit, :update, :destroy]
-  before_action :check_participation, only: [:new, :create]
-  
+  before_action :set_book, only: [ :show, :edit, :update, :destroy ]
+  before_action :authorize_user, only: [ :edit, :update, :destroy ]
+  before_action :check_participation, only: [ :new, :create ]
+
   def index
     @books = @challenge.books.includes(:user).order(created_at: :desc)
   end
@@ -45,24 +45,24 @@ class BooksController < ApplicationController
     flash[:notice] = "Book successfully deleted!"
     redirect_to challenge_books_path(@challenge)
   end
-  
+
   private
-  
+
   def set_challenge
     @challenge = Challenge.find(params[:challenge_id])
   end
-  
+
   def set_book
     @book = @challenge.books.find(params[:id])
   end
-  
+
   def authorize_user
     unless @book.user == current_user
       flash[:alert] = "You are not authorized to perform this action"
       redirect_to challenge_book_path(@challenge, @book)
     end
   end
-  
+
   def check_participation
     is_participant = @challenge.participants.include?(current_user) || @challenge.creator == current_user
     unless is_participant
@@ -70,7 +70,7 @@ class BooksController < ApplicationController
       redirect_to @challenge
     end
   end
-  
+
   def book_params
     params.require(:book).permit(:title, :author, :pages, :description, :url, :completion_date)
   end

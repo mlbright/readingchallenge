@@ -33,9 +33,12 @@
         <p><%= simple_format(@book.description) %></p>
       </div>
     <% end %>
-    
+
     <% if @book.url.present? %>
-      <p><strong>Purchase/More Info:</strong> <%= link_to @book.url, @book.url, target: "_blank" %></p>
+      <% safe_url = safe_book_url(@book.url) %>
+      <% if safe_url %>
+        <p><strong>Purchase/More Info:</strong> <%= link_to safe_url, safe_url, target: "_blank", rel: "noopener noreferrer" %></p>
+      <% end %>
     <% end %>
   </div>
 

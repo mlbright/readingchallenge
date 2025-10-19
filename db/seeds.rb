@@ -96,16 +96,16 @@ puts "Created #{Challenge.count} challenges"
 puts "\nAdding participants to challenges..."
 
 # Summer Challenge participants
-[alice, bob, charlie].each { |user| summer_challenge.participants << user }
+[ alice, bob, charlie ].each { |user| summer_challenge.participants << user }
 
-# Sci-Fi Challenge participants  
-[bob, alice, charlie].each { |user| scifi_challenge.participants << user }
+# Sci-Fi Challenge participants
+[ bob, alice, charlie ].each { |user| scifi_challenge.participants << user }
 
 # Non-Fiction Challenge participants
-[charlie, alice, bob].each { |user| nonfiction_challenge.participants << user }
+[ charlie, alice, bob ].each { |user| nonfiction_challenge.participants << user }
 
 # Completed Challenge participants
-[admin, alice, bob, charlie].each { |user| completed_challenge.participants << user }
+[ admin, alice, bob, charlie ].each { |user| completed_challenge.participants << user }
 
 puts "\nAdding books to challenges..."
 
