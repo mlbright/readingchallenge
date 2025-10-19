@@ -3,7 +3,9 @@
 one:
   challenge: one
   user: one
+  book_goal: 12
 
 two:
   challenge: two
   user: two
+  book_goal: 15

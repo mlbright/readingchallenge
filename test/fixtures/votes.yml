@@ -2,10 +2,10 @@
 
 one:
   user: one
-  book: one
-  approved: false
+  book: two
+  veto_reason: "This book does not align with my reading interests and preferences"
 
 two:
   user: two
-  book: two
-  approved: false
+  book: one
+  veto_reason: "I don't think this book fits the challenge theme very well"

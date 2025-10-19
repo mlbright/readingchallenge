@@ -1,15 +1,17 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  description: MyText
-  due_date: 2025-10-18
-  veto_threshold: 1
-  creator_id: 1
+  name: Challenge One
+  description: This is the first challenge
+  due_date: 2025-12-31
+  veto_threshold: 3
+  creator: one
+  default_book_goal: 12
 
 two:
-  name: MyString
-  description: MyText
-  due_date: 2025-10-18
-  veto_threshold: 1
-  creator_id: 1
+  name: Challenge Two
+  description: This is the second challenge
+  due_date: 2025-12-31
+  veto_threshold: 2
+  creator: two
+  default_book_goal: 15
