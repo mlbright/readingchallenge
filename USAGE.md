@@ -26,7 +26,7 @@
 
    - Admin creates user accounts   - Username: `alice`, Password: `password`
 
-   - Users activate their accounts at `/signup`   - Username: `bob`, Password: `password`  
+   - Users activate their accounts at `/activation`   - Username: `bob`, Password: `password`  
 
    - Username: `charlie`, Password: `password`
 
@@ -38,7 +38,7 @@
 
 ### 1. User Registration & Authentication
 
-#### Site Administrator (First Time Only)- Click "Sign Up" to create a new account
+#### Site Administrator (First Time Only)- Click "Activate Account" to create a new account
 
 - Visit the application - you'll be redirected to `/admin_signup`- Provide a username, email, and password
 
@@ -70,7 +70,7 @@
 
 #### User Account Activation- Fill in the book details:
 
-1. Visit `/signup`  - **Title** (required): The book's title
+1. Visit `/activation`  - **Title** (required): The book's title
 
 2. Enter email provided by administrator  - **Author** (required): The book's author
 
@@ -378,7 +378,7 @@ Main navigation includes:
 3. Username (optional - auto-generated from email if not provided)
 4. Check "Admin" box if creating an administrator
 5. Click "Create User"
-6. User must activate account at `/signup`
+6. User must activate account at `/activation`
 
 **Delete User:**
 - Click "Delete" next to any user (except yourself)
@@ -411,7 +411,7 @@ Main navigation includes:
    - Admin adds `alice@example.com`
    
 2. **Alice activates account:**
-   - Visits `/signup`
+   - Visits `/activation`
    - Enters email and creates password `AliceReads2025!`
    
 3. **Alice creates challenge:**

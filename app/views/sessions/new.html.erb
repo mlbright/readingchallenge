@@ -15,7 +15,7 @@
 <% end %>
 
 <div style="margin-top: 2rem;">
-  <p>Need to activate your account? <%= link_to "Sign up here", signup_path %></p>
+  <p>Need to activate your account? <%= link_to "Activate here", activation_path %></p>
   <% unless User.exists?(admin: true) %>
     <p class="text-muted">First time here? <%= link_to "Set up as Site Administrator", admin_signup_path %></p>
   <% end %>

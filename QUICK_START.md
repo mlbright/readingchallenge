@@ -30,7 +30,7 @@ You'll be automatically redirected to `/admin_signup`
 
 ### 4. Activate User Account
 
-User visits `/signup` and enters:
+User visits `/activation` and enters:
 - Email: `user@example.com` (provided by admin)
 - Password: Create strong password
 
@@ -144,7 +144,7 @@ Book Details → Remove Veto button
 |------|---------|
 | `/` | Smart home (redirects appropriately) |
 | `/admin_signup` | One-time admin setup |
-| `/signup` | User activation |
+| `/activation` | User activation |
 | `/login` | Sign in |
 | `/challenges` | Browse challenges |
 | `/challenges/new` | Create challenge |
@@ -161,7 +161,7 @@ Book Details → Remove Veto button
 - Admin must create your account first via Admin panel.
 
 **"This account already has a password set"**
-- Use `/login` instead of `/signup`.
+- Use `/login` instead of `/activation`.
 
 **"Password doesn't meet requirements"**
 - Check: 12+ chars, uppercase, lowercase, digit, special char

@@ -10,8 +10,8 @@ Rails.application.routes.draw do
   # Registration routes
   get "admin_signup", to: "registrations#admin_signup"
   post "admin_signup", to: "registrations#create_admin", as: "create_admin"
-  get "signup", to: "registrations#signup"
-  post "signup", to: "registrations#create", as: "create_signup"
+  get "activation", to: "registrations#activation"
+  post "activation", to: "registrations#create", as: "create_activation"
 
   # Admin routes
   namespace :admin do

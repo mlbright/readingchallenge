@@ -35,8 +35,8 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # Regular user signup (must be pre-created by admin)
-  def signup
+  # Regular user activation (must be pre-created by admin)
+  def activation
   end
 
   def create
@@ -45,14 +45,14 @@ class RegistrationsController < ApplicationController
 
     if @user.nil?
       flash.now[:alert] = "No account found with this email. Please contact your administrator to create an account for you."
-      render :signup, status: :unprocessable_entity
+      render :activation, status: :unprocessable_entity
       return
     end
 
     # Check if user already has a password
     unless @user.needs_password_setup?
       flash.now[:alert] = "This account already has a password set. Please use the login page."
-      render :signup, status: :unprocessable_entity
+      render :activation, status: :unprocessable_entity
       return
     end
 
@@ -63,7 +63,7 @@ class RegistrationsController < ApplicationController
       redirect_to root_path
     else
       flash.now[:alert] = @user.errors.full_messages.join(", ")
-      render :signup, status: :unprocessable_entity
+      render :activation, status: :unprocessable_entity
     end
   end
 end

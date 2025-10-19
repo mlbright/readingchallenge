@@ -1,6 +1,6 @@
-<h2>Sign Up</h2>
+<h2>Activate Account</h2>
 
-<%= form_with model: @user, url: signup_path, local: true do |f| %>
+<%= form_with model: @user, url: activation_path, local: true do |f| %>
   <% if @user.errors.any? %>
     <div class="error-messages">
       <h3><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h3>

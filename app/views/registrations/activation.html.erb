@@ -3,11 +3,11 @@
   <p class="form-subtitle">Your administrator has created an account for you. Enter your email and create a password to get started.</p>
   
   <div class="alert alert-info">
-    <strong>ℹ️ Note:</strong> Your account must be created by a site administrator before you can sign up. 
+    <strong>ℹ️ Note:</strong> Your account must be created by a site administrator before you can activate it. 
     If you don't have an account yet, please contact your administrator.
   </div>
   
-  <%= form_with url: create_signup_path, method: :post, local: true do |f| %>
+  <%= form_with url: create_activation_path, method: :post, local: true do |f| %>
     <div class="form-group">
       <%= label_tag :email %>
       <%= email_field_tag :email, nil, required: true, class: "form-control", placeholder: "your.email@example.com", autofocus: true %>
