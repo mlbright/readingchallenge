@@ -7,6 +7,7 @@ class Challenge < ApplicationRecord
   validates :name, presence: true, length: { minimum: 3, maximum: 100 }
   validates :due_date, presence: true
   validates :veto_threshold, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :default_book_goal, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validate :due_date_in_future, on: :create
   
   # Check if challenge is complete (past due date)

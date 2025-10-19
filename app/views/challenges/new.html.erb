@@ -37,6 +37,12 @@
       <%= f.number_field :veto_threshold, required: true, class: "form-control", min: 1, value: @challenge.veto_threshold || 1 %>
       <small class="form-text">How many vetos before a book doesn't count toward the leaderboard? (Default: 1)</small>
     </div>
+    
+    <div class="form-group">
+      <%= f.label :default_book_goal, "Default Book Goal" %>
+      <%= f.number_field :default_book_goal, required: true, class: "form-control", min: 1, value: @challenge.default_book_goal || 12 %>
+      <small class="form-text">Default number of books participants should aim to read (Default: 12). Participants can adjust their goal after joining.</small>
+    </div>
 
     <div class="form-actions">
       <%= f.submit "Create Challenge", class: "btn btn-primary" %>

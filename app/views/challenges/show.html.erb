@@ -30,8 +30,40 @@
       <small>(Books with <%= @challenge.veto_threshold %>+ vetos don't count toward leaderboard)</small>
     </div>
     <div class="info-row">
+      <strong>Default Book Goal:</strong> <%= @challenge.default_book_goal %> books
+    </div>
+    <div class="info-row">
       <strong>Participants:</strong> <%= @challenge.participants.count %>
     </div>
+    
+    <% if @is_participant && @user_participation %>
+      <div class="info-row user-goal-section">
+        <strong>Your Goal:</strong> <%= @user_participation.book_goal %> books
+        <%= link_to "✏️ Update Goal", "#", onclick: "document.getElementById('goal-update-form').style.display='block'; return false;", class: "btn-link" %>
+        <% completed = current_user.books.where(challenge: @challenge).completed.count %>
+        <% valid = current_user.books.where(challenge: @challenge).completed.select { |b| !b.exceeds_veto_threshold? }.count %>
+        <div class="progress-bar-container">
+          <div class="progress-info">
+            <span><%= valid %> / <%= @user_participation.book_goal %> books completed</span>
+            <span><%= ((valid.to_f / @user_participation.book_goal) * 100).round(1) %>%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" style="width: <%= [((valid.to_f / @user_participation.book_goal) * 100), 100].min %>%"></div>
+          </div>
+        </div>
+        
+        <div id="goal-update-form" style="display: none; margin-top: 10px; padding: 15px; background: #f5f5f5; border-radius: 5px;">
+          <%= form_with url: update_goal_challenge_path(@challenge), method: :patch, local: true do |f| %>
+            <div class="form-group">
+              <%= label_tag :book_goal, "New Book Goal:" %>
+              <%= number_field_tag :book_goal, @user_participation.book_goal, min: 1, class: "form-control", style: "width: 100px; display: inline-block;" %>
+              <%= submit_tag "Update", class: "btn btn-small btn-primary" %>
+              <%= link_to "Cancel", "#", onclick: "document.getElementById('goal-update-form').style.display='none'; return false;", class: "btn btn-small" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
     
     <% if @challenge.description.present? %>
       <div class="challenge-description">

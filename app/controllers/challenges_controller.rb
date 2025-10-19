@@ -1,7 +1,8 @@
 class ChallengesController < ApplicationController
   before_action :require_login
-  before_action :set_challenge, only: [:show, :edit, :update, :destroy, :join, :leave, :leaderboard, :invite, :add_users]
+  before_action :set_challenge, only: [:show, :edit, :update, :destroy, :join, :leave, :leaderboard, :invite, :add_users, :update_goal]
   before_action :require_creator, only: [:edit, :update, :destroy, :invite, :add_users]
+  before_action :require_participant, only: [:update_goal]
   
   def index
     @my_challenges = current_user.created_challenges.order(due_date: :asc)
@@ -15,6 +16,7 @@ class ChallengesController < ApplicationController
   def show
     @books = @challenge.books.includes(:user, :votes).order(created_at: :desc)
     @is_participant = @challenge.participants.include?(current_user) || @challenge.creator == current_user
+    @user_participation = @challenge.challenge_participations.find_by(user: current_user) if @is_participant
   end
   
   def new
@@ -92,11 +94,13 @@ class ChallengesController < ApplicationController
     @leaderboard_data = @challenge.participants.map do |participant|
       completed_count = participant.books.where(challenge: @challenge).completed.count
       valid_count = participant.books.where(challenge: @challenge).completed.select { |b| !b.exceeds_veto_threshold? }.count
+      participation = @challenge.challenge_participations.find_by(user: participant)
       
       {
         user: participant,
         completed: completed_count,
-        valid: valid_count
+        valid: valid_count,
+        goal: participation&.book_goal || @challenge.default_book_goal
       }
     end.sort_by { |data| [-data[:valid], data[:user].username] }
     
@@ -138,6 +142,32 @@ class ChallengesController < ApplicationController
     redirect_to @challenge
   end
   
+  def update_goal
+    participation = @challenge.challenge_participations.find_by(user: current_user)
+    
+    if participation.nil?
+      flash[:alert] = "You are not participating in this challenge"
+      redirect_to @challenge
+      return
+    end
+    
+    new_goal = params[:book_goal].to_i
+    
+    if new_goal <= 0
+      flash[:alert] = "Book goal must be greater than 0"
+      redirect_to @challenge
+      return
+    end
+    
+    if participation.update(book_goal: new_goal)
+      flash[:notice] = "Your book goal has been updated to #{new_goal} books!"
+    else
+      flash[:alert] = "Failed to update your book goal"
+    end
+    
+    redirect_to @challenge
+  end
+  
   private
   
   def set_challenge
@@ -152,6 +182,13 @@ class ChallengesController < ApplicationController
   end
   
   def challenge_params
-    params.require(:challenge).permit(:name, :description, :due_date, :veto_threshold)
+    params.require(:challenge).permit(:name, :description, :due_date, :veto_threshold, :default_book_goal)
+  end
+  
+  def require_participant
+    unless @challenge.participants.include?(current_user)
+      flash[:alert] = "You must be a participant to perform this action"
+      redirect_to @challenge
+    end
   end
 end

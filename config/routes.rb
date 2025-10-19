@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       get 'leaderboard'
       get 'invite'
       post 'add_users'
+      patch 'update_goal'
     end
     
     resources :books do

@@ -37,6 +37,12 @@
       <%= f.number_field :veto_threshold, required: true, class: "form-control", min: 1 %>
       <small class="form-text">Number of vetos needed to disqualify a book from leaderboard</small>
     </div>
+    
+    <div class="form-group">
+      <%= f.label :default_book_goal, "Default Book Goal" %>
+      <%= f.number_field :default_book_goal, required: true, class: "form-control", min: 1 %>
+      <small class="form-text">Default number of books for new participants (existing participants keep their current goals)</small>
+    </div>
 
     <div class="form-actions">
       <%= f.submit "Update Challenge", class: "btn btn-primary" %>

@@ -15,8 +15,10 @@
           <tr>
             <th>Rank</th>
             <th>Participant</th>
+            <th>Goal</th>
             <th>Books Completed</th>
             <th>Valid Books*</th>
+            <th>Progress</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -43,13 +45,23 @@
                   <span class="badge badge-you">You</span>
                 <% end %>
               </td>
+              <td class="goal"><%= data[:goal] %></td>
               <td class="books-completed"><%= data[:completed] %></td>
               <td class="valid-books"><strong><%= data[:valid] %></strong></td>
+              <td class="progress">
+                <% progress = ((data[:valid].to_f / data[:goal]) * 100).round(1) %>
+                <%= progress %>%
+                <% if progress >= 100 %>
+                  ✅
+                <% end %>
+              </td>
               <td class="status">
                 <% if index == 0 && @challenge.complete? %>
                   <span class="winner-badge">🏆 Winner!</span>
+                <% elsif data[:valid] >= data[:goal] %>
+                  <span class="status-good">✓ Goal reached!</span>
                 <% elsif data[:valid] > 0 %>
-                  <span class="status-good">✓ On track</span>
+                  <span class="status-progress">📖 In progress</span>
                 <% else %>
                   <span class="status-none">No valid books</span>
                 <% end %>

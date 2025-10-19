@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_18_194942) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_19_014407) do
   create_table "books", force: :cascade do |t|
     t.string "title"
     t.string "author"
@@ -32,6 +32,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_194942) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "invited_by_id"
+    t.integer "book_goal", null: false
     t.index ["challenge_id", "user_id"], name: "index_challenge_participations_on_challenge_id_and_user_id", unique: true
     t.index ["challenge_id"], name: "index_challenge_participations_on_challenge_id"
     t.index ["invited_by_id"], name: "index_challenge_participations_on_invited_by_id"
@@ -46,6 +47,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_194942) do
     t.integer "creator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "default_book_goal", default: 12, null: false
     t.index ["creator_id"], name: "index_challenges_on_creator_id"
   end
 
