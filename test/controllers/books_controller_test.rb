@@ -1,38 +1,45 @@
 require "test_helper"
 
 class BooksControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @user = users(:one)
+    @challenge = challenges(:one)
+    @book = books(:one)
+    post login_path, params: { email: @user.email, password: "password" }
+  end
+
   test "should get index" do
-    get books_index_url
+    get challenge_books_path(@challenge)
     assert_response :success
   end
 
   test "should get show" do
-    get books_show_url
+    get challenge_book_path(@challenge, @book)
     assert_response :success
   end
 
   test "should get new" do
-    get books_new_url
+    get new_challenge_book_path(@challenge)
     assert_response :success
   end
 
   test "should get create" do
-    get books_create_url
-    assert_response :success
+    post challenge_books_path(@challenge), params: { book: { title: "Test Book", author: "Test Author", pages: 200 } }
+    assert_response :redirect
   end
 
   test "should get edit" do
-    get books_edit_url
+    get edit_challenge_book_path(@challenge, @book)
     assert_response :success
   end
 
   test "should get update" do
-    get books_update_url
-    assert_response :success
+    patch challenge_book_path(@challenge, @book), params: { book: { title: "Updated Title" } }
+    assert_response :redirect
   end
 
   test "should get destroy" do
-    get books_destroy_url
-    assert_response :success
+    delete challenge_book_path(@challenge, @book)
+    assert_response :redirect
   end
 end

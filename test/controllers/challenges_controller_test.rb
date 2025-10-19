@@ -1,38 +1,44 @@
 require "test_helper"
 
 class ChallengesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @user = users(:one)
+    @challenge = challenges(:one)
+    post login_path, params: { email: @user.email, password: "password" }
+  end
+
   test "should get index" do
-    get challenges_index_url
+    get challenges_path
     assert_response :success
   end
 
   test "should get show" do
-    get challenges_show_url
+    get challenge_path(@challenge)
     assert_response :success
   end
 
   test "should get new" do
-    get challenges_new_url
+    get new_challenge_path
     assert_response :success
   end
 
   test "should get create" do
-    get challenges_create_url
-    assert_response :success
+    post challenges_path, params: { challenge: { name: "Test Challenge", description: "Test", due_date: 1.year.from_now } }
+    assert_response :redirect
   end
 
   test "should get edit" do
-    get challenges_edit_url
+    get edit_challenge_path(@challenge)
     assert_response :success
   end
 
   test "should get update" do
-    get challenges_update_url
-    assert_response :success
+    patch challenge_path(@challenge), params: { challenge: { name: "Updated Name" } }
+    assert_response :redirect
   end
 
   test "should get destroy" do
-    get challenges_destroy_url
-    assert_response :success
+    delete challenge_path(@challenge)
+    assert_response :redirect
   end
 end

@@ -7,7 +7,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get create_admin" do
-    post admin_signup_path
+    post admin_signup_path, params: { username: "admin", email: "admin@example.com", password: "Password123!", password_confirmation: "Password123!" }
     assert_response :redirect
   end
 
