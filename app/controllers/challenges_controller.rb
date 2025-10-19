@@ -92,15 +92,18 @@ class ChallengesController < ApplicationController
   
   def leaderboard
     @leaderboard_data = @challenge.participants.map do |participant|
-      completed_count = participant.books.where(challenge: @challenge).completed.count
-      valid_count = participant.books.where(challenge: @challenge).completed.select { |b| !b.exceeds_veto_threshold? }.count
+      completed_books = participant.books.where(challenge: @challenge).completed
+      completed_count = completed_books.count
+      valid_count = completed_books.select { |b| !b.exceeds_veto_threshold? }.count
+      total_pages = completed_books.sum(:pages)
       participation = @challenge.challenge_participations.find_by(user: participant)
       
       {
         user: participant,
         completed: completed_count,
         valid: valid_count,
-        goal: participation&.book_goal || @challenge.default_book_goal
+        goal: participation&.book_goal || @challenge.default_book_goal,
+        total_pages: total_pages
       }
     end.sort_by { |data| [-data[:valid], data[:user].username] }
     

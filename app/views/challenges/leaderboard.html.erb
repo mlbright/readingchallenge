@@ -18,6 +18,7 @@
             <th>Goal</th>
             <th>Books Completed</th>
             <th>Valid Books*</th>
+            <th>Pages Read</th>
             <th>Progress</th>
             <th>Status</th>
           </tr>
@@ -48,6 +49,7 @@
               <td class="goal"><%= data[:goal] %></td>
               <td class="books-completed"><%= data[:completed] %></td>
               <td class="valid-books"><strong><%= data[:valid] %></strong></td>
+              <td class="pages-read"><%= number_with_delimiter(data[:total_pages]) %></td>
               <td class="progress">
                 <% progress = ((data[:valid].to_f / data[:goal]) * 100).round(1) %>
                 <%= progress %>%

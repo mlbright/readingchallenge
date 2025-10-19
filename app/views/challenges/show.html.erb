@@ -40,11 +40,13 @@
       <div class="info-row user-goal-section">
         <strong>Your Goal:</strong> <%= @user_participation.book_goal %> books
         <%= link_to "✏️ Update Goal", "#", onclick: "document.getElementById('goal-update-form').style.display='block'; return false;", class: "btn-link" %>
-        <% completed = current_user.books.where(challenge: @challenge).completed.count %>
-        <% valid = current_user.books.where(challenge: @challenge).completed.select { |b| !b.exceeds_veto_threshold? }.count %>
+        <% completed_books = current_user.books.where(challenge: @challenge).completed %>
+        <% completed = completed_books.count %>
+        <% valid = completed_books.select { |b| !b.exceeds_veto_threshold? }.count %>
+        <% total_pages = completed_books.sum(:pages) %>
         <div class="progress-bar-container">
           <div class="progress-info">
-            <span><%= valid %> / <%= @user_participation.book_goal %> books completed</span>
+            <span><%= valid %> / <%= @user_participation.book_goal %> books completed • <%= number_with_delimiter(total_pages) %> pages read</span>
             <span><%= ((valid.to_f / @user_participation.book_goal) * 100).round(1) %>%</span>
           </div>
           <div class="progress-bar">
