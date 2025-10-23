@@ -1,0 +1,198 @@
+{
+  "request": {
+    "query": "Hampton Sides",
+    "page": 1,
+    "limit": 20
+  },
+  "response": {
+    "query_id": "0c11-0bb6-9808-b495",
+    "searchtook": 4.58,
+    "results": 200,
+    "pages": 10,
+    "version": "1.0",
+    "resultlist": [
+      {
+        "rank": 1,
+        "title": "Ghost Soldiers: The Epic Account of World War II's Greatest Rescue Mission",
+        "work_id": 216704,
+        "score": 43472.46,
+        "isbns": [
+          "9780385495653",
+          "9780385495646",
+          "9780375431104",
+          "9781415953327",
+          "9781400033409"
+        ]
+      },
+      {
+        "rank": 2,
+        "title": "Blood and Thunder: The Epic Story of Kit Carson and the Conquest of the American West",
+        "work_id": 1350182,
+        "score": 27542.74,
+        "isbns": [
+          "9780385507776",
+          "9780739326725",
+          "9781400031108",
+          "9780739346907",
+          "9780307387677"
+        ],
+        "upcs": [
+          "100385507771"
+        ]
+      },
+      {
+        "rank": 3,
+        "title": "In the Kingdom of Ice: The Grand and Terrible Polar Voyage of the USS Jeannette",
+        "work_id": 14831197,
+        "score": 13751.95,
+        "isbns": [
+          "9780385535373",
+          "9780804194600",
+          "9780307966544",
+          "9780385535380",
+          "9780307946911"
+        ]
+      },
+      {
+        "rank": 4,
+        "title": "Hellhound on His Trail: The Stalking of Martin Luther King, Jr., and the International Hunt for His Assassin",
+        "work_id": 9577897,
+        "score": 13201.34,
+        "isbns": [
+          "9780385523929",
+          "9780739377574",
+          "9780307714121",
+          "9780385533195",
+          "9780307387431"
+        ]
+      },
+      {
+        "rank": 5,
+        "title": "The Wide Wide Sea: Imperial Ambition, First Contact and the Fateful Final Voyage of Captain James Cook",
+        "work_id": 31051864,
+        "score": 11211.73,
+        "isbns": [
+          "9780385544764",
+          "9780593821312",
+          "9780593863183"
+        ]
+      },
+      {
+        "rank": 6,
+        "title": "Americana: Dispatches from the New Frontier",
+        "work_id": 35265,
+        "score": 10754.71,
+        "isbns": [
+          "9781400033553",
+          "9780307424747",
+          "9781515957768",
+          "9781515907763",
+          "9781515927761"
+        ]
+      },
+      {
+        "rank": 7,
+        "title": "Ghost Soldiers: The Forgotten Epic Story of World War II's Most Dramatic Mission {abridged audio}",
+        "work_id": 26623916,
+        "score": 10570.38,
+        "isbns": [
+          "9780553714395",
+          "9780739341766",
+          "9780739314692"
+        ]
+      },
+      {
+        "rank": 8,
+        "title": "On Desperate Ground: The Marines at The Reservoir, the Korean War's Greatest Battle",
+        "work_id": 21772109,
+        "score": 6782.26,
+        "isbns": [
+          "9780735208544",
+          "9780385541152",
+          "9780385541169",
+          "9781101971215",
+          "9781984833655"
+        ]
+      },
+      {
+        "rank": 9,
+        "title": "Left for Dead: Shipwreck, Treachery, and Survival at the Edge of the World",
+        "work_id": 31615872,
+        "score": 1380.34
+      },
+      {
+        "rank": 10,
+        "title": "The Inconvenient Indian: A Curious Account of Native People in North America",
+        "work_id": 12848384,
+        "score": 1000,
+        "isbns": [
+          "9780385664219",
+          "9780385664226",
+          "9780816689767",
+          "9780385674058",
+          "9781517904463"
+        ]
+      },
+      {
+        "rank": 11,
+        "title": "Codename Nemo: The Hunt for a Nazi U-Boat and The Elusive Enigma Machine",
+        "work_id": 31537446,
+        "score": 950.04
+      },
+      {
+        "rank": 12,
+        "title": "This Fierce People: The Untold Story of America's Revolutionary War in the South",
+        "work_id": 32193687,
+        "score": 863.45
+      },
+      {
+        "rank": 13,
+        "title": "The Shortest History of the Crown",
+        "work_id": 29995762,
+        "score": 630.39
+      },
+      {
+        "rank": 14,
+        "title": "Bessborough: Three Women. Three Decades. Three Stories of Courage.",
+        "work_id": 28813175,
+        "score": 615.2
+      },
+      {
+        "rank": 15,
+        "title": "The Shortest History of Italy: 3,000 Years from the Romans to the Renaissance to a Modern Republic\u2015A Retelling for Our Times (The Shortest History Series)",
+        "work_id": 31240562,
+        "score": 579.87
+      },
+      {
+        "rank": 16,
+        "title": "Small Acts of Courage: A Legacy of Endurance and the Fight for Democracy",
+        "work_id": 31481282,
+        "score": 563.52
+      },
+      {
+        "rank": 17,
+        "title": null,
+        "work_id": 31084001,
+        "score": 553.37
+      },
+      {
+        "rank": 18,
+        "title": null,
+        "work_id": 31110257,
+        "score": 468.96
+      },
+      {
+        "rank": 19,
+        "title": "Stomping Grounds: A Pilgrim's Progress Through Eight American Subcultures",
+        "work_id": 1655046,
+        "score": 462.54
+      },
+      {
+        "rank": 20,
+        "title": "The Whiskey Rebellion: A Distilled History of an American Crisis",
+        "work_id": 30743588,
+        "score": 459.47
+      }
+    ]
+  }
+}
